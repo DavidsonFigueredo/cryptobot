@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoBot</title>
+    <style>
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://your-matrix-background-image-url') repeat 0 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        body {
+            background: black;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            color: #00ff00;
+            overflow: hidden;
+        }
+
+        #container {
+            text-align: center;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        h1,
+        button {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff00;
+        }
+
+        input,
+        textarea,
+        button {
+            margin-bottom: 10px;
+            height: 50px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00ff00;
+            color: black;
+        }
+
+        .same-width {
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media only screen and (min-width: 601px) and (max-width: 1024px) {
+            h1 {
+                font-size: 28px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            color: #00ff00;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .neon-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typeText 5s steps(40) infinite;
+        }
+
+        @keyframes typeText {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+    </style>
+    <!-- Adiciona o link para a fonte Orbitron (se ainda não estiver incluída) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap">
+</head>
+
+<body>
+    <div id="container">
+        <div class="neon-text">
+            ********A****L****U****R****A********
+        </div>
+        <h1>CryptoBot</h1>
+        <label for="inputText">Digite o texto</label>
+        <textarea id="inputText" class="same-width" placeholder="Digite o texto"></textarea>
+        <br>
+        <button class="same-width" onclick="criptografarTexto()">Criptografar</button>
+        <button class="same-width" onclick="descriptografarTexto()">Descriptografar</button>
+        <br>
+        <label for="textoCriptografado">Resultado</label>
+        <textarea id="textoCriptografado" class="same-width" placeholder="Resultado" rows="4" cols="50"></textarea>
+        <br>
+        <button class="same-width" onclick="copiarResultado()">Copiar Resultado</button>
+    </div>
+
+    <footer>
+        Desenvolvido por Davidson Figueredo
+    </footer>
+
+    <script>
+        function criptografarTexto() {
+            const textoEntrada = document.getElementById('inputText').value;
+            if (possuiMaiusculasOuAcentos(textoEntrada)) {
+                alert("Por favor, digite apenas letras minúsculas sem acentos.");
+                return;
+            }
+            const resultado = criptografar(textoEntrada);
+            document.getElementById('textoCriptografado').value = resultado;
+        }
+
+        function descriptografarTexto() {
+            const textoEntrada = document.getElementById('inputText').value;
+            if (possuiMaiusculasOuAcentos(textoEntrada)) {
+                alert("Por favor, digite apenas letras minúsculas, sem acento.");
+                return;
+            }
+            const resultado = descriptografar(textoEntrada);
+            document.getElementById('textoCriptografado').value = resultado;
+        }
+
+        function copiarResultado() {
+            const elementoResultado = document.getElementById('textoCriptografado');
+            const textoResultado = elementoResultado.value;
+
+            const textoParaCopiar = textoResultado || document.getElementById('inputText').value;
+
+            if (possuiMaiusculasOuAcentos(textoParaCopiar)) {
+                alert("Por favor, digite apenas letras minúsculas e sem acento.");
+                return;
+            }
+
+            const elementoTemporario = document.createElement('textarea');
+            elementoTemporario.value = textoParaCopiar;
+            document.body.appendChild(elementoTemporario);
+            elementoTemporario.select();
+
+            document.execCommand('copy');
+
+            document.body.removeChild(elementoTemporario);
+
+            alert('Texto copiado para a área de transferência!');
+        }
+
+        function possuiMaiusculasOuAcentos(entrada) {
+            return /[A-ZÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜ]/.test(entrada);
+        }
+
+        function criptografar(texto) {
+            return texto.replace(/e/g, 'enter')
+                .replace(/i/g, 'imes')
+                .replace(/a/g, 'ai')
+                .replace(/o/g, 'ober')
+                .replace(/u/g, 'ufat');
+        }
+
+        function descriptografar(texto) {
+            return texto.replace(/enter/g, 'e')
+                .replace(/imes/g, 'i')
+                .replace(/ai/g, 'a')
+                .replace(/ober/g, 'o')
+                .replace(/ufat/g, 'u');
+        }
+    </script>
+
+</body>
+
+</html>
